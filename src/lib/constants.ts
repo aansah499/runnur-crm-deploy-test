@@ -1,0 +1,17 @@
+export const TAG_LABELS: Record<string, string> = {
+  new_customer: 'New Customers',
+  repeat_customer: 'Repeat Customers',
+  frequent_customer: 'Frequent Customers',
+  high_spend: 'High Spend (£200+)',
+  inactive_30: 'Inactive (30-59 Days)',
+  inactive_60: 'Inactive (60-89 Days)',
+  inactive_90: 'Inactive (90+ Days)',
+  airport_traveller: 'Airport Travellers',
+  station_traveller: 'Station Travellers',
+  school_run: 'School Runs',
+  hospital_visitor: 'Hospital Visitors',
+  care_home_related: 'Care Home Related',
+  shopping_traveller: 'Shopping Travellers',
+  nightlife_traveller: 'Nightlife Travellers',
+  business_traveller: 'Business Travellers',
+};
