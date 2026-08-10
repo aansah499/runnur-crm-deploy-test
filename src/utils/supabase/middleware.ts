@@ -58,6 +58,12 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  console.log('--- MIDDLEWARE RUNNING ---');
+  console.log('Path:', request.nextUrl.pathname);
+  console.log('Has URL:', !!process.env.NEXT_PUBLIC_SUPABASE_URL);
+  console.log('Has KEY:', !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  console.log('User found:', !!user);
+
   if (!user && !request.nextUrl.pathname.startsWith('/login') && !request.nextUrl.pathname.startsWith('/auth')) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
