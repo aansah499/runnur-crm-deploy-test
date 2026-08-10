@@ -11,7 +11,7 @@ export default function LogoutButton() {
     <button
       onClick={() => startTransition(() => logout())}
       disabled={isPending}
-      className="p-2 text-zinc-500 hover:text-red-400 hover:bg-zinc-900 rounded-lg transition-colors disabled:opacity-50"
+      className="p-2 text-zinc-400 hover:text-brand hover:bg-zinc-800/50 rounded-lg transition-colors disabled:opacity-50"
       title="Log out"
     >
       <LogOut className="w-4 h-4" />

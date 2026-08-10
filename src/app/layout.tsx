@@ -75,12 +75,15 @@ export default async function RootLayout({
           <div className="p-4 border-t border-zinc-800/50">
             <div className="flex items-center justify-between px-3 py-2">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center text-sm font-bold text-black">
+                <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center text-sm font-bold text-black shadow-sm">
                   A
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-sm font-medium">Admin</span>
-                  <span className="text-xs text-zinc-500">Online</span>
+                  <span className="text-sm font-medium text-white">Admin</span>
+                  <span className="text-xs text-zinc-400 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand"></span>
+                    Online
+                  </span>
                 </div>
               </div>
               <LogoutButton />
