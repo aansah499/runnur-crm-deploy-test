@@ -2,7 +2,6 @@
 
 import { supabase } from '@/lib/supabase';
 import { Resend } from 'resend';
-import { addCampaign } from './campaigns';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
