@@ -94,7 +94,7 @@ export default function GlobalSearch() {
           <div className="max-h-96 overflow-y-auto p-2">
             {!isLoading && results.length === 0 && (
               <div className="p-4 text-center text-zinc-400 text-sm">
-                No customers found matching "{query}"
+                No customers found matching &quot;{query}&quot;
               </div>
             )}
             
