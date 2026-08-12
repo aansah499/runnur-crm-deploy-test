@@ -47,7 +47,7 @@ export default function AddBookingPage() {
           <h3 className="text-2xl font-bold text-white mb-2 relative z-10">Booking Added</h3>
           <p className="text-zinc-400 relative z-10 mb-8">The customer and journey have been successfully recorded.</p>
           
-          <div className="flex justify-center gap-4 relative z-10">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
             <button
               onClick={() => {
                 formRef.current?.reset();
@@ -57,7 +57,7 @@ export default function AddBookingPage() {
             >
               Add Another
             </button>
-            <Link href="/" className="px-6 py-2 bg-brand hover:bg-brand-hover text-black font-medium rounded-lg transition-colors shadow-lg shadow-brand/20">
+            <Link href="/" className="px-6 py-2 bg-brand hover:bg-brand-hover text-black font-medium rounded-lg transition-colors shadow-lg shadow-brand/20 flex items-center justify-center">
               Dashboard
             </Link>
           </div>
@@ -85,7 +85,7 @@ export default function AddBookingPage() {
           <div className="space-y-4">
             <h3 className="text-lg font-medium text-white border-b border-zinc-800 pb-2">Customer Details</h3>
             
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <label htmlFor="name" className="text-sm font-medium text-zinc-400">Full Name *</label>
                 <input required type="text" id="name" name="name" className="w-full bg-zinc-900/50 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-brand/50" placeholder="John Doe" />
@@ -101,7 +101,7 @@ export default function AddBookingPage() {
               <input type="email" id="email" name="email" className="w-full bg-zinc-900/50 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-brand/50" placeholder="john@example.com" />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <label htmlFor="sms_consent" className="text-sm font-medium text-zinc-400">SMS Consent</label>
                 <select id="sms_consent" name="sms_consent" className="w-full bg-zinc-900/50 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-brand/50 appearance-none">

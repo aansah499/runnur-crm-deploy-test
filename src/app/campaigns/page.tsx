@@ -42,17 +42,17 @@ export default async function CampaignsPage() {
           </h2>
           <p className="text-zinc-400">Track your outbound marketing efforts and measure their ROI.</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
           <Link 
             href="/campaigns/send" 
-            className="flex items-center gap-2 px-4 py-2 bg-zinc-800 text-white text-sm font-medium rounded-lg hover:bg-zinc-700 transition-colors shadow-lg"
+            className="flex justify-center items-center gap-2 px-4 py-2 bg-zinc-800 text-white text-sm font-medium rounded-lg hover:bg-zinc-700 transition-colors shadow-lg w-full sm:w-auto"
           >
             <Mail className="w-4 h-4" />
             Send Campaign
           </Link>
           <Link 
             href="/campaigns/new" 
-            className="flex items-center gap-2 px-4 py-2 bg-brand text-black text-sm font-medium rounded-lg hover:bg-brand-hover transition-colors shadow-lg shadow-brand/10"
+            className="flex justify-center items-center gap-2 px-4 py-2 bg-brand text-black text-sm font-medium rounded-lg hover:bg-brand-hover transition-colors shadow-lg shadow-brand/10 w-full sm:w-auto"
           >
             <PlusCircle className="w-4 h-4" />
             Log New Campaign
@@ -61,7 +61,7 @@ export default async function CampaignsPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, i) => (
           <div key={i} className="glass-panel p-6 rounded-2xl relative overflow-hidden group">
             <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${stat.color} opacity-10 rounded-full blur-3xl -mr-10 -mt-10 transition-opacity group-hover:opacity-20`} />
@@ -77,8 +77,8 @@ export default async function CampaignsPage() {
       </div>
 
       {/* Campaigns Table */}
-      <div className="glass-panel rounded-2xl overflow-hidden flex flex-col">
-        <div className="p-6 border-b border-zinc-800/50 bg-zinc-900/50">
+      <div className="glass-panel rounded-2xl overflow-hidden flex flex-col w-full">
+        <div className="p-4 md:p-6 border-b border-zinc-800/50 bg-zinc-900/50">
           <h3 className="text-xl font-semibold text-white">Campaign History</h3>
         </div>
         
@@ -86,13 +86,13 @@ export default async function CampaignsPage() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-zinc-800/50 bg-zinc-900/80">
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400 w-1/4">Campaign</th>
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400">Channel</th>
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400">Audience</th>
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400">Sent Date</th>
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400">Bookings Result</th>
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400">Revenue Result</th>
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400 text-right">Actions</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 w-1/4 whitespace-nowrap">Campaign</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Channel</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Audience</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Sent Date</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Bookings Result</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Revenue Result</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 text-right whitespace-nowrap">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800/50">

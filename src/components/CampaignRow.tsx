@@ -50,30 +50,30 @@ export default function CampaignRow({ campaign }: { campaign: Campaign }) {
 
   return (
     <tr className="hover:bg-zinc-800/30 transition-colors group">
-      <td className="py-4 px-6">
+      <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap">
         <div className="flex flex-col gap-1">
           <span className="text-zinc-200 font-medium">{campaign.name}</span>
           <span className="text-xs text-zinc-500 line-clamp-1">{campaign.message_summary}</span>
         </div>
       </td>
-      <td className="py-4 px-6">
+      <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap">
         <span className={`inline-flex items-center justify-center px-2 py-1 rounded-md text-xs font-medium border uppercase tracking-wider ${badgeClass}`}>
           {campaign.channel}
         </span>
       </td>
-      <td className="py-4 px-6 text-sm text-zinc-300">
+      <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap text-sm text-zinc-300">
         <div className="flex flex-col">
           <span>{campaign.segment_name || 'All'}</span>
           <span className="text-xs text-zinc-500">{campaign.audience_count} reached</span>
         </div>
       </td>
-      <td className="py-4 px-6 text-sm text-zinc-300">
+      <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap text-sm text-zinc-300">
         {campaign.sent_at ? new Date(campaign.sent_at).toLocaleDateString() : 'N/A'}
       </td>
       
       {isEditing ? (
         <>
-          <td className="py-4 px-6">
+          <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap">
             <input 
               type="number" 
               value={bookings} 
@@ -81,7 +81,7 @@ export default function CampaignRow({ campaign }: { campaign: Campaign }) {
               className="w-20 bg-black border border-zinc-700 rounded px-2 py-1 text-sm text-white focus:outline-none focus:border-brand"
             />
           </td>
-          <td className="py-4 px-6">
+          <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap">
             <div className="relative">
               <span className="absolute left-2 top-1.5 text-zinc-500 text-sm">£</span>
               <input 
@@ -93,7 +93,7 @@ export default function CampaignRow({ campaign }: { campaign: Campaign }) {
               />
             </div>
           </td>
-          <td className="py-4 px-6 text-right">
+          <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap text-right">
             <div className="flex items-center justify-end gap-2">
               <button 
                 onClick={handleSave} 
@@ -114,13 +114,13 @@ export default function CampaignRow({ campaign }: { campaign: Campaign }) {
         </>
       ) : (
         <>
-          <td className="py-4 px-6 text-zinc-300">
+          <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap text-zinc-300">
             {campaign.bookings_result || 0}
           </td>
-          <td className="py-4 px-6 font-medium text-emerald-400">
+          <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap font-medium text-emerald-400">
             {formatCurrency(Number(campaign.revenue_result || 0))}
           </td>
-          <td className="py-4 px-6 text-right">
+          <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap text-right">
             <button 
               onClick={() => setIsEditing(true)}
               className="inline-flex items-center gap-1.5 text-sm text-brand hover:text-brand-hover opacity-0 group-hover:opacity-100 transition-opacity"

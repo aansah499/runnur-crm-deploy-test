@@ -102,7 +102,7 @@ export default async function SummaryPage({
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {stats.map((stat, i) => (
           <div key={i} className="glass-panel p-6 rounded-2xl relative overflow-hidden group">
             <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${stat.color} opacity-10 rounded-full blur-3xl -mr-10 -mt-10 transition-opacity group-hover:opacity-20`} />
@@ -118,8 +118,8 @@ export default async function SummaryPage({
       </div>
 
       {/* Journeys Table */}
-      <div className="glass-panel rounded-2xl overflow-hidden flex flex-col">
-        <div className="p-6 border-b border-zinc-800/50 flex justify-between items-center bg-zinc-900/50">
+      <div className="glass-panel rounded-2xl overflow-hidden flex flex-col w-full">
+        <div className="p-4 md:p-6 border-b border-zinc-800/50 flex justify-between items-center bg-zinc-900/50">
           <div>
             <h3 className="text-xl font-semibold text-white">Journeys in Period</h3>
             <p className="text-sm text-zinc-400 mt-1">Detailed list of all {totalBookings} journeys during this timeframe.</p>
@@ -130,11 +130,11 @@ export default async function SummaryPage({
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-zinc-800/50 bg-zinc-900/80">
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400">Date & Time</th>
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400">Customer</th>
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400">Route</th>
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400">Status</th>
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400 text-right">Fare</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Date & Time</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Customer</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Route</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Status</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 text-right whitespace-nowrap">Fare</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800/50">
@@ -145,7 +145,7 @@ export default async function SummaryPage({
               ) : (
                 validJourneys.map((j) => (
                   <tr key={j.id} className="hover:bg-zinc-800/30 transition-colors">
-                    <td className="py-4 px-6">
+                    <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap">
                       <div className="flex flex-col gap-1">
                         <span className="text-zinc-200 font-medium">
                           {new Date(j.booking_date).toLocaleDateString()}
@@ -155,7 +155,7 @@ export default async function SummaryPage({
                         </span>
                       </div>
                     </td>
-                    <td className="py-4 px-6">
+                    <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         {j.customer ? (
                           <>
@@ -167,19 +167,19 @@ export default async function SummaryPage({
                         )}
                       </div>
                     </td>
-                    <td className="py-4 px-6">
+                    <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap">
                       <div className="flex flex-col gap-1.5">
                         <span className="flex items-start gap-1.5 text-sm text-zinc-300">
                           <MapPin className="w-4 h-4 text-zinc-500 mt-0.5 shrink-0" />
-                          <span className="line-clamp-1">{j.pickup_address}</span>
+                          <span className="line-clamp-1 max-w-[200px]">{j.pickup_address}</span>
                         </span>
                         <span className="flex items-start gap-1.5 text-sm text-zinc-400">
                           <Navigation className="w-3.5 h-3.5 text-zinc-600 mt-0.5 shrink-0 ml-0.5" />
-                          <span className="line-clamp-1">{j.dropoff_address}</span>
+                          <span className="line-clamp-1 max-w-[200px]">{j.dropoff_address}</span>
                         </span>
                       </div>
                     </td>
-                    <td className="py-4 px-6">
+                    <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap">
                       <span className={`inline-flex items-center justify-center px-2 py-1 rounded-md text-xs font-medium ${
                         j.status === 'completed' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 
                         j.status === 'cancelled' ? 'bg-red-500/10 text-red-400 border border-red-500/20' :
@@ -188,7 +188,7 @@ export default async function SummaryPage({
                         {j.status}
                       </span>
                     </td>
-                    <td className="py-4 px-6 text-right font-medium text-white">
+                    <td className="py-3 px-4 md:py-4 md:px-6 text-right font-medium text-white whitespace-nowrap">
                       {formatCurrency(Number(j.fare || 0))}
                     </td>
                   </tr>

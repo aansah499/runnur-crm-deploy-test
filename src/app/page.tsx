@@ -65,7 +65,7 @@ export default async function Dashboard() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         {stats.map((stat, i) => (
           <div key={i} className="glass-panel p-6 rounded-2xl relative overflow-hidden group">
             <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${stat.color} opacity-10 rounded-full blur-3xl -mr-10 -mt-10 transition-opacity group-hover:opacity-20`} />
@@ -81,8 +81,8 @@ export default async function Dashboard() {
       </div>
 
       {/* Customers Table */}
-      <div className="glass-panel rounded-2xl overflow-hidden flex flex-col">
-        <div className="p-6 border-b border-zinc-800/50 flex justify-between items-center bg-zinc-900/50">
+      <div className="glass-panel rounded-2xl overflow-hidden flex flex-col w-full">
+        <div className="p-4 md:p-6 border-b border-zinc-800/50 flex flex-col sm:flex-row justify-between sm:items-center gap-4 sm:gap-0 bg-zinc-900/50">
           <div>
             <h3 className="text-xl font-semibold text-white">Recent Customers</h3>
             <p className="text-sm text-zinc-400 mt-1">Showing up to 50 most recent active customers.</p>
@@ -96,12 +96,12 @@ export default async function Dashboard() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-zinc-800/50 bg-zinc-900/80">
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400">Name</th>
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400">Phone</th>
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400">Bookings</th>
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400">Total Spend</th>
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400">Last Booking</th>
-                <th className="py-4 px-6 text-sm font-medium text-zinc-400 text-right">Actions</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Name</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Phone</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Bookings</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Total Spend</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Last Booking</th>
+                <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 text-right whitespace-nowrap">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800/50">
@@ -112,25 +112,25 @@ export default async function Dashboard() {
               ) : (
                 customers?.map((customer) => (
                   <tr key={customer.id} className="hover:bg-zinc-800/30 transition-colors group">
-                    <td className="py-4 px-6">
+                    <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <CustomerNameDisplay name={customer.name} addressKey={customer.address_key} />
                         <LTVBadge band={customer.lifetime_value_band} />
                       </div>
                       {customer.email && <div className="text-xs text-zinc-500 mt-0.5">{customer.email}</div>}
                     </td>
-                    <td className="py-4 px-6 text-zinc-300">{customer.phone || <span className="text-zinc-600 italic">Unknown</span>}</td>
-                    <td className="py-4 px-6 text-zinc-300">
+                    <td className="py-3 px-4 md:py-4 md:px-6 text-zinc-300 whitespace-nowrap">{customer.phone || <span className="text-zinc-600 italic">Unknown</span>}</td>
+                    <td className="py-3 px-4 md:py-4 md:px-6 text-zinc-300 whitespace-nowrap">
                       <span className="inline-flex items-center justify-center px-2 py-1 rounded-md bg-zinc-800 text-xs font-medium">
                         {customer.total_bookings}
                       </span>
                     </td>
-                    <td className="py-4 px-6 text-zinc-300">£{Number(customer.total_spend || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                    <td className="py-4 px-6 text-zinc-300">
+                    <td className="py-3 px-4 md:py-4 md:px-6 text-zinc-300 whitespace-nowrap">£{Number(customer.total_spend || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td className="py-3 px-4 md:py-4 md:px-6 text-zinc-300 whitespace-nowrap">
                       {customer.last_booking_at ? new Date(customer.last_booking_at).toLocaleDateString() : 'N/A'}
                     </td>
-                    <td className="py-4 px-6 text-right">
-                      <Link href={`/customers/${customer.id}`} className="inline-flex items-center gap-2 text-sm text-brand hover:text-brand-hover opacity-0 group-hover:opacity-100 transition-opacity">
+                    <td className="py-3 px-4 md:py-4 md:px-6 text-right whitespace-nowrap">
+                      <Link href={`/customers/${customer.id}`} className="inline-flex items-center gap-2 text-sm text-brand hover:text-brand-hover md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                         View Profile <ArrowRight className="w-4 h-4" />
                       </Link>
                     </td>

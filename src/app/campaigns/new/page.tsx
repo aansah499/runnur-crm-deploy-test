@@ -140,11 +140,11 @@ export default function NewCampaignPage() {
             </div>
           </div>
 
-          <div className="pt-4 flex justify-end">
+          <div className="pt-4 flex flex-col sm:flex-row justify-end">
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex items-center gap-2 px-6 py-3 bg-brand text-black font-semibold rounded-xl hover:bg-brand-hover transition-colors shadow-lg shadow-brand/10 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex justify-center items-center gap-2 px-6 py-3 bg-brand text-black font-semibold rounded-xl hover:bg-brand-hover transition-colors shadow-lg shadow-brand/10 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
             >
               {isSubmitting ? (
                 <>

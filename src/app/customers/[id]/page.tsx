@@ -107,7 +107,7 @@ export default async function CustomerProfilePage({ params }: { params: { id: st
           {/* Stats Summary */}
           <div className="glass-panel p-6 rounded-2xl space-y-6">
             <h3 className="text-lg font-medium text-white border-b border-zinc-800/50 pb-2">Overview</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1">
                 <span className="text-sm text-zinc-500 flex items-center gap-1.5"><Navigation className="w-4 h-4" /> Bookings</span>
                 <p className="text-2xl font-semibold text-white">{customer.total_bookings}</p>
@@ -149,7 +149,7 @@ export default async function CustomerProfilePage({ params }: { params: { id: st
         {/* Journeys History */}
         <div className="lg:col-span-2">
           <div className="glass-panel rounded-2xl overflow-hidden flex flex-col h-full">
-            <div className="p-6 border-b border-zinc-800/50 bg-zinc-900/50 flex justify-between items-center">
+            <div className="p-4 md:p-6 border-b border-zinc-800/50 bg-zinc-900/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <h3 className="text-xl font-semibold text-white flex items-center gap-2">
                   <MapPin className="w-5 h-5 text-brand" /> Journey History
@@ -162,10 +162,10 @@ export default async function CustomerProfilePage({ params }: { params: { id: st
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-zinc-800/50 bg-zinc-900/80">
-                    <th className="py-4 px-6 text-sm font-medium text-zinc-400">Date</th>
-                    <th className="py-4 px-6 text-sm font-medium text-zinc-400">Route</th>
-                    <th className="py-4 px-6 text-sm font-medium text-zinc-400">Fare</th>
-                    <th className="py-4 px-6 text-sm font-medium text-zinc-400 text-right">Status</th>
+                    <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Date</th>
+                    <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Route</th>
+                    <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 whitespace-nowrap">Fare</th>
+                    <th className="py-3 px-4 md:py-4 md:px-6 text-sm font-medium text-zinc-400 text-right whitespace-nowrap">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-zinc-800/50">
@@ -176,28 +176,28 @@ export default async function CustomerProfilePage({ params }: { params: { id: st
                   ) : (
                     journeys?.map((journey) => (
                       <tr key={journey.id} className="hover:bg-zinc-800/30 transition-colors">
-                        <td className="py-4 px-6 whitespace-nowrap text-zinc-300">
+                        <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap text-zinc-300">
                           {new Date(journey.booking_date).toLocaleDateString()}
                         </td>
-                        <td className="py-4 px-6">
+                        <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap">
                           <div className="flex flex-col gap-2 relative">
                             {/* Visual connecting line */}
                             <div className="absolute left-[7px] top-[14px] bottom-[14px] w-0.5 bg-zinc-800"></div>
                             
                             <div className="flex items-start gap-3 relative z-10">
                               <div className="w-4 h-4 rounded-full border-2 border-brand bg-zinc-900 mt-0.5 flex-shrink-0" />
-                              <span className="text-sm text-zinc-300 break-words">{journey.pickup_address}</span>
+                              <span className="text-sm text-zinc-300 truncate max-w-[150px] sm:max-w-[200px]" title={journey.pickup_address}>{journey.pickup_address}</span>
                             </div>
                             <div className="flex items-start gap-3 relative z-10">
                               <div className="w-4 h-4 rounded-full border-2 border-emerald-400 bg-zinc-900 mt-0.5 flex-shrink-0" />
-                              <span className="text-sm text-zinc-300 break-words">{journey.dropoff_address}</span>
+                              <span className="text-sm text-zinc-300 truncate max-w-[150px] sm:max-w-[200px]" title={journey.dropoff_address}>{journey.dropoff_address}</span>
                             </div>
                           </div>
                         </td>
-                        <td className="py-4 px-6 text-zinc-300 font-medium">
+                        <td className="py-3 px-4 md:py-4 md:px-6 text-zinc-300 font-medium whitespace-nowrap">
                           £{Number(journey.fare).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                         </td>
-                        <td className="py-4 px-6 text-right">
+                        <td className="py-3 px-4 md:py-4 md:px-6 text-right whitespace-nowrap">
                           <span className={`inline-flex items-center justify-center px-2.5 py-1 rounded-full text-xs font-medium border ${
                             journey.status === 'completed' 
                               ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 

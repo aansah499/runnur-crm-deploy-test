@@ -167,18 +167,18 @@ export default function SendCampaignForm({ initialSegment = '' }: SendCampaignFo
         )}
 
         <div className="mt-8 pt-8 border-t border-zinc-800/50 flex flex-col md:flex-row gap-6 justify-between items-center">
-          <div className="flex w-full md:w-auto items-center gap-3 bg-zinc-900/50 p-2 rounded-lg border border-zinc-800">
+          <div className="flex flex-col sm:flex-row w-full md:w-auto items-stretch sm:items-center gap-3 bg-zinc-900/50 p-2 rounded-lg border border-zinc-800">
             <input
               type="email"
               value={testEmail}
               onChange={(e) => setTestEmail(e.target.value)}
               placeholder="Test email address"
-              className="bg-transparent border-none text-white px-3 focus:outline-none placeholder-zinc-500 text-sm"
+              className="bg-transparent border-none text-white px-3 py-2 sm:py-0 focus:outline-none placeholder-zinc-500 text-sm w-full"
             />
             <button
               onClick={handleSendTest}
               disabled={isSendingTest}
-              className="px-4 py-2 bg-zinc-800 text-zinc-300 text-sm font-medium rounded-md hover:bg-zinc-700 hover:text-white transition-colors disabled:opacity-50 flex items-center gap-2 whitespace-nowrap"
+              className="px-4 py-2 bg-zinc-800 text-zinc-300 text-sm font-medium rounded-md hover:bg-zinc-700 hover:text-white transition-colors disabled:opacity-50 flex items-center justify-center gap-2 whitespace-nowrap"
             >
               {isSendingTest ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
               Send Test

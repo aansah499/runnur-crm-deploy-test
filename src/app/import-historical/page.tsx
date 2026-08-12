@@ -58,7 +58,7 @@ export default function HistoricalImportPage() {
             <Archive className="w-12 h-12 text-brand mx-auto mb-4" />
             <h3 className="text-lg font-medium text-white mb-2">Select Historical CSV File</h3>
             <p className="text-zinc-400 mb-6 text-sm">Required columns: external_customer_id, external_booking_id, pickup_address, dropoff_address, booking_date, fare, status</p>
-            <label className="cursor-pointer px-6 py-3 bg-brand hover:bg-brand-hover text-black font-medium rounded-lg transition-colors inline-block shadow-lg shadow-brand/20">
+            <label className="cursor-pointer px-6 py-3 bg-brand hover:bg-brand-hover text-black font-medium rounded-lg transition-colors inline-block shadow-lg shadow-brand/20 w-full sm:w-auto">
               Browse Files
               <input type="file" accept=".csv" className="hidden" onChange={handleFileUpload} />
             </label>
@@ -67,12 +67,12 @@ export default function HistoricalImportPage() {
 
           {preview.length > 0 && (
             <div className="glass-panel rounded-2xl overflow-hidden">
-              <div className="p-6 border-b border-zinc-800/50 bg-zinc-900/50 flex justify-between items-center">
+              <div className="p-4 md:p-6 border-b border-zinc-800/50 bg-zinc-900/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <h3 className="text-lg font-medium text-white">Preview (First {preview.length} rows)</h3>
                 <button
                   onClick={handleImport}
                   disabled={isImporting}
-                  className="px-6 py-2 bg-brand text-black text-sm font-medium rounded-lg hover:bg-brand-hover transition-colors shadow-lg shadow-brand/10 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-2 bg-brand text-black text-sm font-medium rounded-lg hover:bg-brand-hover transition-colors shadow-lg shadow-brand/10 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
                 >
                   {isImporting && <Loader2 className="w-4 h-4 animate-spin" />}
                   {isImporting ? 'Importing...' : 'Start Import'}
@@ -128,7 +128,7 @@ export default function HistoricalImportPage() {
               </div>
             </div>
 
-            <div className="mt-8 flex justify-center gap-4 relative z-10">
+            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4 relative z-10">
               <button
                 onClick={() => {
                   setResult(null);
@@ -136,11 +136,11 @@ export default function HistoricalImportPage() {
                   setPreview([]);
                   setAllRows([]);
                 }}
-                className="px-6 py-2 bg-zinc-800 hover:bg-zinc-700 text-white font-medium rounded-lg transition-colors"
+                className="px-6 py-2 bg-zinc-800 hover:bg-zinc-700 text-white font-medium rounded-lg transition-colors w-full sm:w-auto"
               >
                 Import Another File
               </button>
-              <Link href="/" className="px-6 py-2 bg-brand hover:bg-brand-hover text-black font-medium rounded-lg transition-colors shadow-lg shadow-brand/20">
+              <Link href="/" className="px-6 py-2 bg-brand hover:bg-brand-hover text-black font-medium rounded-lg transition-colors shadow-lg shadow-brand/20 flex items-center justify-center w-full sm:w-auto">
                 Back to Dashboard
               </Link>
             </div>
