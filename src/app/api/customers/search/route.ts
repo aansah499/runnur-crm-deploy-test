@@ -26,6 +26,7 @@ export async function GET(request: Request) {
   const { data, error } = await supabase
     .from('customers')
     .select('id, name, phone, address_key, lifetime_value_band')
+    .neq('is_archived', true)
     .or(`name.ilike.%${trimmedQuery}%,phone.ilike.%${normalizedPhone}%,address_key.ilike.%${trimmedQuery}%`)
     .limit(8);
 

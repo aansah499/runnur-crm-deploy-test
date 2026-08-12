@@ -10,7 +10,8 @@ export default async function Dashboard() {
   // 1. Total Customers
   const { count: totalCustomers } = await supabase
     .from('customers')
-    .select('*', { count: 'exact', head: true });
+    .select('*', { count: 'exact', head: true })
+    .neq('is_archived', true);
 
   // 2. Total Journeys
   const { count: totalJourneys } = await supabase
@@ -20,7 +21,8 @@ export default async function Dashboard() {
   // 3. Total Revenue
   const { data: revenueData } = await supabase
     .from('customers')
-    .select('total_spend');
+    .select('total_spend')
+    .neq('is_archived', true);
   
   const totalRevenue = revenueData?.reduce((sum, c) => sum + Number(c.total_spend || 0), 0) || 0;
 
@@ -28,6 +30,7 @@ export default async function Dashboard() {
   const { count: repeatCustomers } = await supabase
     .from('customers')
     .select('*', { count: 'exact', head: true })
+    .neq('is_archived', true)
     .gte('total_bookings', 2);
 
   // 5. Inactive Customers
@@ -36,12 +39,14 @@ export default async function Dashboard() {
   const { count: inactiveCustomers } = await supabase
     .from('customers')
     .select('*', { count: 'exact', head: true })
+    .neq('is_archived', true)
     .lt('last_booking_at', thirtyDaysAgo.toISOString());
 
   // Customers Table Data
   const { data: customers } = await supabase
     .from('customers')
     .select('*')
+    .neq('is_archived', true)
     .order('last_booking_at', { ascending: false, nullsFirst: false })
     .limit(50);
 

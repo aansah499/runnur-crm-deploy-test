@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase';
+import { logAudit } from '@/utils/audit';
 
 export async function recalculateCustomerTags(customerId: string) {
   // 1. Fetch ALL customer journeys to act as source of truth
@@ -11,6 +12,15 @@ export async function recalculateCustomerTags(customerId: string) {
     console.error(`Failed to fetch journeys for customer ${customerId}:`, journeysError);
     return;
   }
+
+  // Fetch the existing tags to compare for audit logging
+  const { data: customerData } = await supabase
+    .from('customers')
+    .select('tags')
+    .eq('id', customerId)
+    .single();
+  
+  const oldTags = customerData?.tags || [];
 
   // Calculate Core Metrics
   const totalBookings = journeys?.length || 0;
@@ -150,5 +160,16 @@ export async function recalculateCustomerTags(customerId: string) {
 
   if (updateError) {
     console.error(`Failed to update tags for customer ${customerId}:`, updateError);
+  } else {
+    // Check if tags actually changed to avoid spamming audit logs
+    const oldTagsStr = JSON.stringify(oldTags.sort());
+    const newTagsStr = JSON.stringify(tags.sort());
+    
+    if (oldTagsStr !== newTagsStr) {
+      await logAudit('customer.tags_updated', 'customer', customerId, {
+        old_tags: oldTags,
+        new_tags: tags
+      });
+    }
   }
 }

@@ -3,6 +3,7 @@
 import { supabase } from '@/lib/supabase';
 import { Resend } from 'resend';
 import { generateUnsubscribeLink } from '@/utils/unsubscribe';
+import { logAudit } from '@/utils/audit';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -72,6 +73,8 @@ export async function sendTestEmail(email: string, subject: string, message: str
       console.error('Resend error:', error);
       return { success: false, error: error.message };
     }
+
+    await logAudit('campaign.test_sent', 'campaign', null, { email, subject });
 
     return { success: true, data };
   } catch (err: unknown) {
@@ -166,7 +169,7 @@ export async function sendCampaignEmail(campaignName: string, segment: string, s
     // Wait, the existing addCampaign takes FormData, it's a server action for a form.
     // I can construct a FormData or just call the DB directly here. Calling DB directly is better since we don't have FormData.
     const messageSummary = `${subject} - ${message}`.substring(0, 100);
-    const { error: dbError } = await supabase
+    const { data: newCampaign, error: dbError } = await supabase
       .from('campaigns')
       .insert({
         name: campaignName,
@@ -175,10 +178,18 @@ export async function sendCampaignEmail(campaignName: string, segment: string, s
         audience_count: successfulSends,
         sent_at: new Date().toISOString(),
         message_summary: messageSummary,
-      });
+      })
+      .select()
+      .single();
 
     if (dbError) {
       console.error('Error logging campaign to db:', dbError);
+    } else if (newCampaign) {
+      await logAudit('campaign.sent', 'campaign', newCampaign.id, { 
+        name: campaignName, 
+        segment, 
+        audience_count: successfulSends 
+      });
     }
 
     return { 

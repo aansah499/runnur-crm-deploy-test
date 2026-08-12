@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { type User } from '@supabase/supabase-js';
-import { LayoutDashboard, FileUp, PlusCircle, PieChart, Archive, TrendingUp, Building, Calendar, Megaphone, Menu, X } from 'lucide-react';
+import { LayoutDashboard, FileUp, PlusCircle, PieChart, Archive, TrendingUp, Building, Calendar, Megaphone, Menu, X, Shield, Copy } from 'lucide-react';
 import LogoutButton from '@/components/LogoutButton';
 
 export default function Sidebar({ user }: { user: User | null }) {
@@ -25,6 +25,8 @@ export default function Sidebar({ user }: { user: User | null }) {
     { href: '/insights', icon: TrendingUp, label: 'Insights' },
     { href: '/businesses', icon: Building, label: 'Businesses' },
     { href: '/campaigns', icon: Megaphone, label: 'Campaigns' },
+    { href: '/customers/duplicates', icon: Copy, label: 'Duplicates' },
+    { href: '/settings/audit', icon: Shield, label: 'Audit Log' },
   ];
 
   return (

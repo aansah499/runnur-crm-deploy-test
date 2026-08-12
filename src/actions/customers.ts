@@ -2,6 +2,7 @@
 
 import { supabase } from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
+import { logAudit } from '@/utils/audit';
 
 export async function updateMarketingConsent(customerId: string, field: 'sms_consent' | 'email_consent', value: string) {
   try {
@@ -11,6 +12,8 @@ export async function updateMarketingConsent(customerId: string, field: 'sms_con
       .eq('id', customerId);
 
     if (error) throw error;
+    
+    await logAudit('customer.consent_updated', 'customer', customerId, { field, value });
     
     revalidatePath(`/customers/${customerId}`);
     return { success: true };
@@ -34,6 +37,8 @@ export async function updateCustomerContactDetails(customerId: string, name: str
       .eq('id', customerId);
 
     if (error) throw error;
+    
+    await logAudit('customer.updated', 'customer', customerId, { name, phone, email });
     
     revalidatePath(`/customers/${customerId}`);
     revalidatePath('/');
