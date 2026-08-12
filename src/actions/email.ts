@@ -43,7 +43,7 @@ export async function getSegmentStats(segment: string) {
 export async function sendTestEmail(email: string, subject: string, message: string) {
   try {
     const { data, error } = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: process.env.RESEND_FROM_EMAIL || 'noreply@runnur.co.uk',
       to: [email],
       subject: subject,
       html: `<p>${message.replace(/\n/g, '<br/>')}</p>`,
@@ -95,7 +95,7 @@ export async function sendCampaignEmail(campaignName: string, segment: string, s
       
       const batchPromises = batch.map(customer => {
         return resend.emails.send({
-          from: 'onboarding@resend.dev',
+          from: process.env.RESEND_FROM_EMAIL || 'noreply@runnur.co.uk',
           to: [customer.email],
           subject: subject,
           html: `<p>${message.replace(/\n/g, '<br/>')}</p>`,
