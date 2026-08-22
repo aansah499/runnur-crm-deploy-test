@@ -122,6 +122,25 @@ export async function sendCampaignEmail(campaignName: string, segment: string, s
       return { success: false, error: 'No eligible customers in this segment.' };
     }
 
+    const messageSummary = `${subject} - ${message}`.substring(0, 100);
+    const { data: newCampaign, error: dbError } = await supabase
+      .from('campaigns')
+      .insert({
+        name: campaignName,
+        channel: 'email',
+        segment_name: segment,
+        audience_count: 0,
+        sent_at: new Date().toISOString(),
+        message_summary: messageSummary,
+      })
+      .select()
+      .single();
+
+    if (dbError || !newCampaign) {
+      console.error('Error initializing campaign:', dbError);
+      return { success: false, error: 'Failed to initialize campaign record.' };
+    }
+
     // Send emails in batches of 50
     const BATCH_SIZE = 50;
     let successfulSends = 0;
@@ -129,6 +148,13 @@ export async function sendCampaignEmail(campaignName: string, segment: string, s
 
     for (let i = 0; i < eligibleCustomers.length; i += BATCH_SIZE) {
       const batch = eligibleCustomers.slice(i, i + BATCH_SIZE);
+      const recipientInserts: {
+        campaign_id: string;
+        customer_id: string;
+        email: string;
+        resend_email_id: string;
+        status: string;
+      }[] = [];
       
       const batchPromises = batch.map(customer => {
         const unsubscribeLink = generateUnsubscribeLink(customer.id);
@@ -144,12 +170,21 @@ export async function sendCampaignEmail(campaignName: string, segment: string, s
           to: [customer.email!],
           subject: subject,
           html: `<p>${message.replace(/\n/g, '<br/>')}</p>${footerHtml}`,
-        }).then(({ error }) => {
+        }).then(({ data, error }) => {
           if (error) {
             console.error(`Failed to send to ${customer.email}:`, error);
             errors.push(`Failed to send to ${customer.email}: ${error.message}`);
           } else {
             successfulSends++;
+            if (data?.id) {
+              recipientInserts.push({
+                campaign_id: newCampaign.id,
+                customer_id: customer.id,
+                email: customer.email,
+                resend_email_id: data.id,
+                status: 'sent'
+              });
+            }
           }
         }).catch(err => {
           console.error(`Unexpected error for ${customer.email}:`, err);
@@ -159,38 +194,30 @@ export async function sendCampaignEmail(campaignName: string, segment: string, s
 
       await Promise.all(batchPromises);
 
+      if (recipientInserts.length > 0) {
+        const { error: insertError } = await supabase.from('campaign_recipients').insert(recipientInserts);
+        if (insertError) {
+          console.error('Failed to insert campaign recipients:', insertError);
+        }
+      }
+
       // Delay 1 second between batches to avoid rate limits
       if (i + BATCH_SIZE < eligibleCustomers.length) {
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
     }
 
-    // Log the campaign using existing server action logic (adapted for direct call)
-    // Wait, the existing addCampaign takes FormData, it's a server action for a form.
-    // I can construct a FormData or just call the DB directly here. Calling DB directly is better since we don't have FormData.
-    const messageSummary = `${subject} - ${message}`.substring(0, 100);
-    const { data: newCampaign, error: dbError } = await supabase
+    // Update the final audience count for the campaign
+    await supabase
       .from('campaigns')
-      .insert({
-        name: campaignName,
-        channel: 'email',
-        segment_name: segment,
-        audience_count: successfulSends,
-        sent_at: new Date().toISOString(),
-        message_summary: messageSummary,
-      })
-      .select()
-      .single();
+      .update({ audience_count: successfulSends })
+      .eq('id', newCampaign.id);
 
-    if (dbError) {
-      console.error('Error logging campaign to db:', dbError);
-    } else if (newCampaign) {
-      await logAudit('campaign.sent', 'campaign', newCampaign.id, { 
-        name: campaignName, 
-        segment, 
-        audience_count: successfulSends 
-      });
-    }
+    await logAudit('campaign.sent', 'campaign', newCampaign.id, { 
+      name: campaignName, 
+      segment, 
+      audience_count: successfulSends 
+    });
 
     return { 
       success: true, 

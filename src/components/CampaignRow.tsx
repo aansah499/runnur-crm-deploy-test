@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { updateCampaignResults } from '@/actions/campaigns';
 import { Edit2, Check, X } from 'lucide-react';
+import Link from 'next/link';
 
 type Campaign = {
   id: string;
@@ -121,12 +122,20 @@ export default function CampaignRow({ campaign }: { campaign: Campaign }) {
             {formatCurrency(Number(campaign.revenue_result || 0))}
           </td>
           <td className="py-3 px-4 md:py-4 md:px-6 whitespace-nowrap text-right">
-            <button 
-              onClick={() => setIsEditing(true)}
-              className="inline-flex items-center gap-1.5 text-sm text-brand hover:text-brand-hover opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              Update <Edit2 className="w-3.5 h-3.5" />
-            </button>
+            <div className="flex items-center justify-end gap-4">
+              <Link 
+                href={`/campaigns/${campaign.id}`}
+                className="text-sm font-medium text-zinc-400 hover:text-white transition-colors"
+              >
+                View Details
+              </Link>
+              <button 
+                onClick={() => setIsEditing(true)}
+                className="inline-flex items-center gap-1.5 text-sm text-brand hover:text-brand-hover opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                Update <Edit2 className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </td>
         </>
       )}

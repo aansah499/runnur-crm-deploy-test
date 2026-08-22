@@ -14,13 +14,54 @@ export async function POST(request: Request) {
   try {
     const payload = await request.json();
     const type = payload?.type;
+    const data = payload?.data;
+    const emailId = data?.email_id;
+    const supabase = createClient();
 
+    // 1. Update campaign_recipients if we have an emailId
+    if (emailId) {
+      if (type === 'email.delivered') {
+        await supabase
+          .from('campaign_recipients')
+          .update({ status: 'delivered', delivered_at: new Date().toISOString() })
+          .eq('resend_email_id', emailId);
+      } else if (type === 'email.opened') {
+        // Only update to opened if not already clicked
+        const { data: currentRecord } = await supabase
+          .from('campaign_recipients')
+          .select('status')
+          .eq('resend_email_id', emailId)
+          .single();
+          
+        if (currentRecord && currentRecord.status !== 'clicked') {
+          await supabase
+            .from('campaign_recipients')
+            .update({ status: 'opened', opened_at: new Date().toISOString() })
+            .eq('resend_email_id', emailId);
+        }
+      } else if (type === 'email.clicked') {
+        await supabase
+          .from('campaign_recipients')
+          .update({ status: 'clicked', clicked_at: new Date().toISOString() })
+          .eq('resend_email_id', emailId);
+      } else if (type === 'email.bounced') {
+        await supabase
+          .from('campaign_recipients')
+          .update({ status: 'bounced', failed_reason: data?.reason || 'bounced' })
+          .eq('resend_email_id', emailId);
+      } else if (type === 'email.complained') {
+        await supabase
+          .from('campaign_recipients')
+          .update({ status: 'complained' })
+          .eq('resend_email_id', emailId);
+      }
+    }
+
+    // 2. Original suppression logic for bounced/complained
     if (type === 'email.bounced' || type === 'email.complained') {
-      const email = payload?.data?.to?.[0];
+      const email = data?.to?.[0];
       
       if (email) {
-        const supabase = createClient();
-        
         // Find customer ID if it exists
         const { data: customer } = await supabase
           .from('customers')
