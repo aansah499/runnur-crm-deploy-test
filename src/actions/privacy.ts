@@ -126,9 +126,9 @@ export async function sendDataReport(customerId: string) {
 
 export async function eraseCustomerData(customerId: string) {
   try {
-    const { data: customer, error: customerError } = await supabase
+    const { error: customerError } = await supabase
       .from('customers')
-      .select('*')
+      .select('id')
       .eq('id', customerId)
       .single();
 

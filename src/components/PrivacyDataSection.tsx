@@ -36,7 +36,7 @@ export default function PrivacyDataSection({ customerId, customerName, privacySt
       } else {
         alert(res.error || 'Failed to export data');
       }
-    } catch (err) {
+    } catch {
       alert('Error exporting data');
     }
     setIsExporting(false);
@@ -53,7 +53,7 @@ export default function PrivacyDataSection({ customerId, customerName, privacySt
       } else {
         alert(res.error || 'Failed to send data report');
       }
-    } catch (err) {
+    } catch {
       alert('Error sending data report');
     }
     setIsEmailing(false);
@@ -83,7 +83,7 @@ export default function PrivacyDataSection({ customerId, customerName, privacySt
       } else {
         setErasureError(res.error || 'Failed to erase data');
       }
-    } catch (err) {
+    } catch {
       setErasureError('Error erasing data');
     }
     setIsErasing(false);
@@ -96,7 +96,7 @@ export default function PrivacyDataSection({ customerId, customerName, privacySt
           <Shield className="w-5 h-5 text-red-400 mt-0.5" />
           <div>
             <h3 className="text-sm font-medium text-red-400">Customer Erased (GDPR)</h3>
-            <p className="text-xs text-zinc-400 mt-1">This customer's personally identifiable information has been permanently removed in accordance with data protection regulations. Transaction history remains for auditing purposes.</p>
+            <p className="text-xs text-zinc-400 mt-1">This customer&apos;s personally identifiable information has been permanently removed in accordance with data protection regulations. Transaction history remains for auditing purposes.</p>
           </div>
         </div>
       </div>
@@ -168,7 +168,7 @@ export default function PrivacyDataSection({ customerId, customerName, privacySt
               <AlertTriangle className="w-5 h-5 mt-0.5 flex-shrink-0" />
               <div className="text-sm">
                 <strong className="block mb-1">Destructive Action</strong>
-                This will permanently erase the customer's name and contact details. Journey history will be kept for auditing but anonymized.
+                This will permanently erase the customer&apos;s name and contact details. Journey history will be kept for auditing but anonymized.
               </div>
             </div>
             
