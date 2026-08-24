@@ -6,6 +6,7 @@ import LTVBadge from '@/components/LTVBadge';
 import MarketingPreferences from '@/components/MarketingPreferences';
 import CustomerNameDisplay from '@/components/CustomerNameDisplay';
 import InlineContactEdit from '@/components/InlineContactEdit';
+import PrivacyDataSection from '@/components/PrivacyDataSection';
 
 export const revalidate = 0;
 
@@ -56,9 +57,15 @@ export default async function CustomerProfilePage({ params }: { params: { id: st
                 <div className="text-xl font-semibold text-white">
                   <CustomerNameDisplay name={customer.name} addressKey={customer.address_key} showBadge={false} />
                 </div>
-                <span className="inline-flex items-center justify-center px-2 py-1 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 text-xs font-medium mt-1">
-                  Active Customer
-                </span>
+                {customer.privacy_status === 'erased' ? (
+                  <span className="inline-flex items-center justify-center px-2 py-1 rounded-md bg-red-500/20 text-red-400 border border-red-500/20 text-xs font-medium mt-1">
+                    Erased Customer
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center justify-center px-2 py-1 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 text-xs font-medium mt-1">
+                    Active Customer
+                  </span>
+                )}
               </div>
             </div>
 
@@ -143,6 +150,11 @@ export default async function CustomerProfilePage({ params }: { params: { id: st
             customerId={id}
             initialSms={customer.sms_consent}
             initialEmail={customer.email_consent}
+          />
+          <PrivacyDataSection 
+            customerId={id}
+            customerName={customer.name}
+            privacyStatus={customer.privacy_status || 'active'}
           />
         </div>
 
