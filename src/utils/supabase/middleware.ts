@@ -58,11 +58,15 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  const { data: aalData } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel()
+  const mfaRequired = aalData?.nextLevel === 'aal2' && aalData?.currentLevel === 'aal1'
+
   console.log('--- MIDDLEWARE RUNNING ---');
   console.log('Path:', request.nextUrl.pathname);
   console.log('Has URL:', !!process.env.NEXT_PUBLIC_SUPABASE_URL);
   console.log('Has KEY:', !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
   console.log('User found:', !!user);
+  console.log('MFA Required:', mfaRequired);
 
   if (!user && !request.nextUrl.pathname.startsWith('/login') && !request.nextUrl.pathname.startsWith('/auth')) {
     const url = request.nextUrl.clone()
@@ -70,11 +74,18 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // Allow access to login page if already authenticated
-  if (user && request.nextUrl.pathname.startsWith('/login')) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/'
-    return NextResponse.redirect(url)
+  if (user) {
+    if (mfaRequired && !request.nextUrl.pathname.startsWith('/login') && !request.nextUrl.pathname.startsWith('/auth')) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      return NextResponse.redirect(url)
+    }
+    
+    if (!mfaRequired && request.nextUrl.pathname.startsWith('/login')) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/'
+      return NextResponse.redirect(url)
+    }
   }
 
   return supabaseResponse

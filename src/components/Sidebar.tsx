@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { type User } from '@supabase/supabase-js';
-import { LayoutDashboard, FileUp, PlusCircle, PieChart, Archive, TrendingUp, Building, Calendar, Megaphone, Menu, X, Shield, Copy, ShieldAlert } from 'lucide-react';
+import { LayoutDashboard, FileUp, PlusCircle, PieChart, Archive, TrendingUp, Building, Calendar, Megaphone, Menu, X, Shield, Copy, ShieldAlert, Lock } from 'lucide-react';
 import LogoutButton from '@/components/LogoutButton';
 
 export default function Sidebar({ user }: { user: User | null }) {
@@ -26,6 +26,7 @@ export default function Sidebar({ user }: { user: User | null }) {
     { href: '/businesses', icon: Building, label: 'Businesses' },
     { href: '/campaigns', icon: Megaphone, label: 'Campaigns' },
     { href: '/customers/duplicates', icon: Copy, label: 'Duplicates' },
+    { href: '/settings/security', icon: Lock, label: 'Security' },
     { href: '/settings/audit', icon: Shield, label: 'Audit Log' },
     { href: '/privacy-requests', icon: ShieldAlert, label: 'Privacy Requests' },
   ];
