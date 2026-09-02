@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "prebuild": "node --version && npm --version",
-    "build": "next build 2>&1 | tee build-output.log || true",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
