@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "prebuild": "node --version && npm --version",
+    "build": "next build 2>&1 | tee build-output.log || true",
     "start": "next start",
     "lint": "next lint"
   },
