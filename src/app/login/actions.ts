@@ -33,9 +33,10 @@ export async function login(formData: FormData) {
     if (aalData?.nextLevel === 'aal2' && aalData?.currentLevel === 'aal1') {
       mfaRequired = true;
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const errorMessage = err instanceof Error ? err.message : String(err);
     console.error('[Auth] Unexpected error during login:', err);
-    return { error: err.message || 'An unexpected error occurred during login. Please try again.' };
+    return { error: errorMessage || 'An unexpected error occurred during login. Please try again.' };
   }
 
   if (mfaRequired) {
@@ -85,9 +86,10 @@ export async function verifyMfa(formData: FormData) {
       console.error('[Auth] MFA verify error:', verifyError);
       return { error: verifyError.message };
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const errorMessage = err instanceof Error ? err.message : String(err);
     console.error('[Auth] Unexpected error during MFA:', err);
-    return { error: err.message || 'An unexpected error occurred during MFA verification. Please try again.' };
+    return { error: errorMessage || 'An unexpected error occurred during MFA verification. Please try again.' };
   }
 
   revalidatePath('/', 'layout');

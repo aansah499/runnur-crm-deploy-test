@@ -4,12 +4,12 @@ import { cookies } from 'next/headers'
 // Fix for Node.js >= 17 IPv6 DNS resolution issues on certain hosts (like Hostinger)
 // This forces Node to prefer IPv4 over IPv6, preventing 30+ second timeouts
 try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
   const dns = require('dns')
   if (typeof dns.setDefaultResultOrder === 'function') {
     dns.setDefaultResultOrder('ipv4first')
   }
-} catch (e) {
+} catch {
   // Ignore if dns module is not available (e.g. Edge runtime)
 }
 
@@ -60,8 +60,9 @@ export function createClient() {
               console.warn(`[Supabase Fetch] SLOW WARNING: ${url} took ${duration}ms`)
             }
             return response
-          } catch (err: any) {
-            console.error(`[Supabase Fetch Error] Request failed for ${url}:`, err.message || err)
+          } catch (err: unknown) {
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            console.error(`[Supabase Fetch Error] Request failed for ${url}:`, errorMessage)
             throw err
           } finally {
             clearTimeout(timeoutId)
