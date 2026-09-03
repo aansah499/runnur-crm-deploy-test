@@ -49,7 +49,7 @@ export async function login(formData: FormData) {
 
 export async function verifyMfa(formData: FormData) {
   const code = formData.get('code') as string;
-  
+
   try {
     const supabase = createClient();
     console.log(`[Auth] Attempting MFA verification`);
@@ -99,7 +99,7 @@ export async function verifyMfa(formData: FormData) {
 export async function logout() {
   const supabase = createClient();
   await supabase.auth.signOut();
-  
+
   revalidatePath('/', 'layout');
   redirect('/login');
 }

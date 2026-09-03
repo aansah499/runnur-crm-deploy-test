@@ -61,7 +61,7 @@ export function createClient() {
             }
             return response
           } catch (err: unknown) {
-            const errorMessage = err instanceof Error ? err.message : String(err);
+            const errorMessage = err instanceof Error ? err.message : typeof err === 'string' ? err : 'Unknown error';
             console.error(`[Supabase Fetch Error] Request failed for ${url}:`, errorMessage)
             throw err
           } finally {
